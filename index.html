@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GPS Location Tracker</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5VG4OtNWyT189EH62OFUBqB_DKnK6-_I"></script>
+</head>
+<body>
+    <h1>Current GPS Location</h1>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: {lat: 0, lng: 0}
+            });
+
+            // Fetch location from Firebase
+            fetch('https://YOUR_FIREBASE_PROJECT_ID.firebaseio.com/location.json')
+                .then(response => response.json())
+                .then(data => {
+                    var latLng = {lat: data.latitude, lng: data.longitude};
+                    map.setCenter(latLng);
+                    new google.maps.Marker({position: latLng, map: map});
+                });
+        }
+        window.onload = initMap;
+    </script>
+</body>
+</html>
